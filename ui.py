@@ -219,7 +219,7 @@ class SearchUI(QMainWindow):
         # 为每一行创建新的文本框
         for line in lines:
             text_edit = QTextEdit()
-            text_edit.setFixedHeight(30)
+            text_edit.setFixedHeight(35)
             text_edit.setStyleSheet("QTextEdit { font-size: 18px; }")
             text_edit.setAcceptRichText(False)
             text_edit.setMouseTracking(True)

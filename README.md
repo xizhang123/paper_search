@@ -20,3 +20,5 @@
 - 摘要翻译（百度翻译版本，RWKV免费，效果可能不如展示的好）
 
 ![image](https://github.com/user-attachments/assets/5be3c53e-8968-4748-a3a3-1353950ab5b1)
+
+- 自认为90%工作是 Trae + Clauld 3.5 Sonnet 完成的。。。

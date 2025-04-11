@@ -39,6 +39,8 @@ class SearchUI(QMainWindow):
         scroll_area.setWidgetResizable(True)
         scroll_widget = QWidget()
         self.text_layout = QVBoxLayout(scroll_widget)
+        self.text_layout.setSpacing(0)  # 移除文本框之间的间距
+        self.text_layout.setAlignment(Qt.AlignmentFlag.AlignTop)  # 设置文本框从上向下紧密排布
         scroll_area.setWidget(scroll_widget)
         
         # 设置滚动区域的大小策略
@@ -99,7 +101,7 @@ class SearchUI(QMainWindow):
     def add_text_edit(self):
         """添加新的文本输入框"""
         text_edit = QTextEdit()
-        text_edit.setMinimumHeight(20)
+        text_edit.setFixedHeight(35)
         text_edit.setStyleSheet("QTextEdit { font-size: 18px; }")
         text_edit.setAcceptRichText(False)
         text_edit.setMouseTracking(True)
@@ -145,11 +147,14 @@ class SearchUI(QMainWindow):
             index = text_edits.index(self.active_text_edit)
             self.text_layout.removeWidget(self.active_text_edit)
             self.active_text_edit.deleteLater()
-            # 将激活状态转移到前一个文本框
-            if index > 0:
+            
+            # 如果删除的是最后一个文本框，激活前一个文本框
+            if index == len(text_edits) - 1:
                 self.active_text_edit = text_edits[index - 1]
             else:
-                self.active_text_edit = text_edits[1] if len(text_edits) > 1 else None
+                # 否则激活下一个文本框
+                self.active_text_edit = text_edits[index + 1]
+            
             # 更新激活文本框的边框颜色
             if self.active_text_edit:
                 self.set_active_text_edit(self.active_text_edit)
@@ -214,7 +219,7 @@ class SearchUI(QMainWindow):
         # 为每一行创建新的文本框
         for line in lines:
             text_edit = QTextEdit()
-            text_edit.setMinimumHeight(20)
+            text_edit.setFixedHeight(30)
             text_edit.setStyleSheet("QTextEdit { font-size: 18px; }")
             text_edit.setAcceptRichText(False)
             text_edit.setMouseTracking(True)

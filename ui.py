@@ -167,12 +167,12 @@ class SearchUI(QMainWindow):
             self.active_text_edit.setPlainText(escaped_text)
     
     def copy_text_edit(self):
-        """复制最后一个文本框的内容到新文本框"""
-        text_edits = [self.text_layout.itemAt(i).widget() for i in range(self.text_layout.count())]
-        if text_edits:
-            last_text = text_edits[-1].toPlainText()
+        """复制当前激活的文本框的内容到新文本框"""
+        if self.active_text_edit and isinstance(self.active_text_edit, QTextEdit):
+            current_text = self.active_text_edit.toPlainText()
             self.add_text_edit()
-            self.active_text_edit.setPlainText(last_text)
+            self.active_text_edit.setPlainText(current_text)
+            # 新创建的文本框已经在add_text_edit中被设置为激活状态
 
     def translate_text(self):
         """翻译当前激活文本框中的文本"""

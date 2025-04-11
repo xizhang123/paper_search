@@ -11,6 +11,10 @@ class MainApp(SearchUI):
     def confirm_text(self):
         """重写确认按钮的功能，添加搜索和结果处理"""
         arxiv_query, dblp_queries = super().confirm_text()
+        print("本次 arxiv 查询语句：")
+        print(arxiv_query)
+        print("本次 dblp 查询语句列表：")
+        print(dblp_queries)
         max_results = self.max_results_spinbox.value()
         
         if arxiv_query and dblp_queries:

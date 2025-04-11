@@ -7,7 +7,7 @@
 - 支持保存查询条件，便于重新加载有修改
 - 翻译服务基于[https://github.com/josStorer/RWKV-Runner](https://github.com/josStorer/RWKV-Runner/releases)
 - RWKV的安装配置非常简单，配置完成后选择合适的模型下载启动就可以使用翻译功能。
-- 查询示例（注：示例中的查询与查询结果并不完全对应）
+- 查询示例
 
 ![image](https://github.com/user-attachments/assets/60a55af7-c97d-414b-922a-888012a6cb7e)
 

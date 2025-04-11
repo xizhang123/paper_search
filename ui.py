@@ -104,8 +104,8 @@ class SearchUI(QMainWindow):
         text_edit.setAcceptRichText(False)
         text_edit.setMouseTracking(True)
         text_edit.setTextInteractionFlags(text_edit.textInteractionFlags() | Qt.TextInteractionFlag.TextSelectableByMouse)
-        # 添加点击事件处理
-        text_edit.mousePressEvent = lambda e, te=text_edit: self.set_active_text_edit(te)
+        # 使用mouseReleaseEvent来处理文本框激活，这样不会影响文本选择
+        text_edit.mouseReleaseEvent = lambda e, te=text_edit: self.set_active_text_edit(te)
         self.text_layout.addWidget(text_edit)
         self.active_text_edit = text_edit
 

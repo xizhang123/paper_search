@@ -252,7 +252,7 @@ class SearchUI(QMainWindow):
                 text = text.replace('|', ' | ')
                 words = [word.strip() + '$' if word.strip() != '|' else word.strip() 
                          for word in text.split()]
-                formatted_text = ' '.join(words).replace('_', ' ')
+                formatted_text = ' '.join(words).replace('_', '$ ')
                 dblp_query_list.append(formatted_text)
                 
                 # 对于arxiv查询，先将竖线替换为OR

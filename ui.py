@@ -106,22 +106,56 @@ class SearchUI(QMainWindow):
         text_edit.setTextInteractionFlags(text_edit.textInteractionFlags() | Qt.TextInteractionFlag.TextSelectableByMouse)
         # 使用mouseReleaseEvent来处理文本框激活，这样不会影响文本选择
         text_edit.mouseReleaseEvent = lambda e, te=text_edit: self.set_active_text_edit(te)
-        self.text_layout.addWidget(text_edit)
+        
+        # 如果存在激活的文本框，在其后插入新文本框
+        if self.active_text_edit:
+            text_edits = [self.text_layout.itemAt(i).widget() for i in range(self.text_layout.count())]
+            index = text_edits.index(self.active_text_edit)
+            self.text_layout.insertWidget(index + 1, text_edit)
+        else:
+            self.text_layout.addWidget(text_edit)
         self.active_text_edit = text_edit
+        # 更新激活文本框的边框颜色
+        self.set_active_text_edit(text_edit)
 
     def set_active_text_edit(self, text_edit):
         """设置当前活动的文本框"""
+        # 恢复所有文本框的默认样式
+        text_edits = [self.text_layout.itemAt(i).widget() for i in range(self.text_layout.count())]
+        for te in text_edits:
+            te.setStyleSheet("QTextEdit { font-size: 18px; }")
+        
+        # 设置当前激活的文本框样式
+        text_edit.setStyleSheet("QTextEdit { font-size: 18px; border: 2px solid #87CEEB; }")
         self.active_text_edit = text_edit
 
     def delete_text_edit(self):
-        """删除最后一个文本输入框"""
+        """删除文本输入框"""
         text_edits = [self.text_layout.itemAt(i).widget() for i in range(self.text_layout.count())]
-        if len(text_edits) == 1:
+        if not text_edits:
             return
-        if text_edits:
+            
+        if len(text_edits) == 1:
+            # 当只有一个文本框时，清空内容
+            text_edits[0].clear()
+            return
+            
+        if self.active_text_edit:
+            # 删除激活的文本框
+            index = text_edits.index(self.active_text_edit)
+            self.text_layout.removeWidget(self.active_text_edit)
+            self.active_text_edit.deleteLater()
+            # 将激活状态转移到前一个文本框
+            if index > 0:
+                self.active_text_edit = text_edits[index - 1]
+            else:
+                self.active_text_edit = text_edits[1] if len(text_edits) > 1 else None
+            # 更新激活文本框的边框颜色
+            if self.active_text_edit:
+                self.set_active_text_edit(self.active_text_edit)
+        else:
+            # 如果没有激活的文本框，删除最后一个
             last_text_edit = text_edits[-1]
-            if last_text_edit == self.active_text_edit:
-                self.active_text_edit = text_edits[-2] if len(text_edits) > 1 else None
             self.text_layout.removeWidget(last_text_edit)
             last_text_edit.deleteLater()
 
@@ -170,7 +204,8 @@ class SearchUI(QMainWindow):
         with open(file_path, 'r', encoding='utf-8') as f:
             lines = [line.strip() for line in f.readlines() if line.strip()]
             
-        # 清除现有的文本框
+        # 清除现有的文本框，并重置激活状态
+        self.active_text_edit = None
         while self.text_layout.count() > 0:
             widget = self.text_layout.takeAt(0).widget()
             if widget:
@@ -178,12 +213,24 @@ class SearchUI(QMainWindow):
         
         # 为每一行创建新的文本框
         for line in lines:
-            self.add_text_edit()
-            self.active_text_edit.setPlainText(line)
+            text_edit = QTextEdit()
+            text_edit.setMinimumHeight(20)
+            text_edit.setStyleSheet("QTextEdit { font-size: 18px; }")
+            text_edit.setAcceptRichText(False)
+            text_edit.setMouseTracking(True)
+            text_edit.setTextInteractionFlags(text_edit.textInteractionFlags() | Qt.TextInteractionFlag.TextSelectableByMouse)
+            text_edit.mouseReleaseEvent = lambda e, te=text_edit: self.set_active_text_edit(te)
+            text_edit.setPlainText(line)
+            self.text_layout.addWidget(text_edit)
             
         # 如果没有内容，至少添加一个空文本框
         if not lines:
             self.add_text_edit()
+        else:
+            # 设置最后一个文本框为激活状态
+            text_edits = [self.text_layout.itemAt(i).widget() for i in range(self.text_layout.count())]
+            if text_edits:
+                self.set_active_text_edit(text_edits[-1])
     
     def confirm_text(self):
         """确认文本并生成查询语句"""

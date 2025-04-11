@@ -8,11 +8,18 @@
 - 翻译服务基于[https://github.com/josStorer/RWKV-Runner](https://github.com/josStorer/RWKV-Runner/releases)
 - RWKV的安装配置非常简单，配置完成后选择合适的模型下载启动就可以使用翻译功能。
 - 查询示例（注：示例中的查询与查询结果并不完全对应）
-  
-![image](https://github.com/user-attachments/assets/7b7a9a97-4e9d-435c-87d0-8cca4a191446)
+
+![image](https://github.com/user-attachments/assets/60a55af7-c97d-414b-922a-888012a6cb7e)
+
+- 语句组合
+
+![image](https://github.com/user-attachments/assets/79f927cc-26c1-4384-a954-215903a18f02)
+
+
 - 查询完毕
 
-![image](https://github.com/user-attachments/assets/5499b2f3-f87a-4b64-853a-8673d3e08e95)
+![image](https://github.com/user-attachments/assets/f84f7e9e-c080-47c3-b3ce-651f9624a7de)
+
 - 表格整理
 
 ![image](https://github.com/user-attachments/assets/0295cfe3-3751-4fca-97ac-3695c3f301b5)

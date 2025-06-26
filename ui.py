@@ -264,7 +264,8 @@ class SearchUI(QMainWindow):
                     if word == 'OR':
                         keywords.append('OR')
                     else:
-                        keywords.append(f'ti:"{word.strip()}"')
+                        # keywords.append(f'ti:"{word.strip()}"')
+                        keywords.append(f'"{word.strip()}"')
                 
                 if keywords:
                     query = ' AND '.join(keywords)
